@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/style.css">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Tarefas</h1>
+  
+  <form action="/add" method="POST"> <!---nao esquecer: colocar o metodo no form e a action = rota--->
+    <label for="nome_form">Digite o nome da sua tarefa: </label>
+    <input type="text" id="nome_form"  name= "nome_form"required>
+    <button type="submit">criar tarefa</button>
+  </form>
+  
+  <div id="tarefas">
+    {% for task in tasks %}
+    <div id='tarefa'>
+      <form action="/" method='post'>
+        <input type="checkbox" id="checkID" data-task-id="{{task['id']}}" onchange='this.form.submit()' name='box'>
+      </form>
+      <!--{#é a mesma coisa de  if tal == true pois o false ja seria desconsiderado#}-->
+      <p class="name_task"> {{task['nome']}} </p>
+      <p class="name_status"> {{task['status']}} </p>
+    </div>
+    {% endfor %}
+  </div>
+  <script src="{{url_for('static', filename='script.js')}}"></script> <!-- fazer dessa forma se nao erro :( -->
+
+
+
+</body>
+</html>
