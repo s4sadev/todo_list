@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import psycopg2
 from psycopg2.extras import RealDictCursor #antes de tudo importar
 
@@ -30,21 +30,12 @@ def get_task():
     # pega o resultado e guarda em uma variavel
     tasks = cursor.fetchall() # retorna um dicionario
     #gardar as tarefas que estao com check box em um objeto
-    tasks_checked = []
-    for task in tasks:
-        if task["status"] == "concluido":
-            task["checkbox"] = True
-        else:
-            task["checkbox"] = False
-        if task["checkbox"]:
-            tasks_checked.append(tasks)
-
-    print(tasks_checked)
     # fecha o cursor
     cursor.close()
     # fecha a conexao se nao tiver fehado
     if cursor and not conn.close:
         conn.close()
+    print(tasks)
     
     return render_template('index.html', tasks=tasks)
 
@@ -67,8 +58,38 @@ def home():
 
 @app.route('/up/<int:id>', methods=['POST','GET'])
 def atualizes(id):
+    conn = db_conect()
+    
     if request.method == 'POST':
-        return f'<p>{id}</p>'
+        #conectando
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        
+        # pegando o json
+        data_check = request.get_json() # dados do json
+        print(data_check)
+        check_status = data_check.get("checkedIn") # true or false
+        print(check_status)
+        
+        #na verdade so entrar e modificar
+        if check_status == True:
+            status = 'concluido'
+        else:
+            status = 'pendente'
+        print(status)
+        cursor.execute("UPDATE tasks_table SET status = (%s) WHERE id = (%s)", (status, id))
+
+        conn.commit()
+        cursor.close()
+
+        
+        if cursor and not conn.close:
+            conn.close()
+        return jsonify({
+            "idCheck": id,
+            "result": check_status
+        })
+    #muito importante enviar o json
+
     return render_template('index.html')
 
 

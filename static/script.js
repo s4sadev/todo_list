@@ -19,9 +19,23 @@ let checkboxes = document.querySelectorAll(".check")
 //PARA ISSO USAMOS O FOREACH
 
 checkboxes.forEach(checkbox => {
-  checkbox.addEventListener('click', () =>{
+  checkbox.addEventListener('click', function () { //entender a diferença com ou sem a =>
     let Idchecked = checkbox.getAttribute("data-task-id") //sucessooo
-    fetch(`/up/${Idchecked}`, {method:'POST'})
+    const checkStatus = this.checked
+    console.log(checkStatus)
+    // eu preciso enviar um atributo para o flask T-T, o atributo checkbox para saber o visual, como acessar um atributo html e altera-lo
+    fetch(`/up/${Idchecked}`, {
+      method:'POST',
+    
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        checkedIn: checkStatus
+      })
+    
+    })
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.log(error))
