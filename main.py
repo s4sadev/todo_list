@@ -65,25 +65,32 @@ def home():
     return render_template('index.html')
 
 
-#atualizar
-@app.route('/update/<int:id>/complete', methods=['GET','POST'])
-def up_task():
-    conn = db_conect()
+@app.route('/up/<int:id>', methods=['POST','GET'])
+def atualizes(id):
     if request.method == 'POST':
-        box = request.form
-        if 'box' in request.form:
-            box_status = box['box'] #recebe on pode ser tambem request.form['box'] que recebe o valor da chave 'box'
-            #se a caixinha esta marcada iremos atualizar o valor da check para CONCLUIDO!
-            cursor = conn.cursor()
-            cursor.execute("UPDATE tasks_table SET status = 'concluido' WHERE status = 'pendente'")
-            conn.commit()
-            cursor.close()
-            if conn and not conn.close: #duvidas(sintaxe and not e porque nao tem () em close
-                conn.close()
-        else:
-            box_status = 'off' #recebe off
-            
+        return f'<p>{id}</p>'
     return render_template('index.html')
+
+
+# #atualizar
+# @app.route('/update/<int:id>/complete', methods=['GET','POST'])
+# def up_task():
+#     conn = db_conect()
+#     if request.method == 'POST':
+#         box = request.form
+#         if 'box' in request.form:
+#             box_status = box['box'] #recebe on pode ser tambem request.form['box'] que recebe o valor da chave 'box'
+#             #se a caixinha esta marcada iremos atualizar o valor da check para CONCLUIDO!
+#             cursor = conn.cursor()
+#             cursor.execute("UPDATE tasks_table SET status = 'concluido' WHERE status = 'pendente'")
+#             conn.commit()
+#             cursor.close()
+#             if conn and not conn.close: #duvidas(sintaxe and not e porque nao tem () em close
+#                 conn.close()
+#         else:
+#             box_status = 'off' #recebe off
+            
+#     return render_template('index.html')
 
 
 if __name__ == '__main__':

@@ -19,9 +19,7 @@
   <div id="tarefas">
     {% for task in tasks %}
     <div id='tarefa'>
-      <form action="/" method='post'>
-        <input type="checkbox" id="checkID" data-task-id="{{task['id']}}" onchange='this.form.submit()' name='box'>
-      </form>
+        <input type="checkbox" class="check" data-task-id="{{task['id']}}" onchange='this.form.submit()' name='box'>
       <!--{#é a mesma coisa de  if tal == true pois o false ja seria desconsiderado#}-->
       <p class="name_task"> {{task['nome']}} </p>
       <p class="name_status"> {{task['status']}} </p>
