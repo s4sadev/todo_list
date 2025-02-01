@@ -15,18 +15,20 @@ def db_conect():
         password = "sex24012025.1416", #3
         user = "postgres.uibceqinztofwzhkusdn",  #4
         port = "6543"  #5
-      
+
     )
 
 app = Flask(__name__)
 
+
+#listar
 @app.route('/listar')
 def get_task():
     conn = db_conect()
     #cursor conecta
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     # execute busca
-    cursor.execute('SELECT * FROM tasks_table;')
+    cursor.execute('SELECT * FROM tasks_table ORDER by id ASC;')
     # pega o resultado e guarda em uma variavel
     tasks = cursor.fetchall() # retorna um dicionario
     #gardar as tarefas que estao com check box em um objeto
@@ -36,13 +38,12 @@ def get_task():
     if cursor and not conn.close:
         conn.close()
     print(tasks)
-    
-    return render_template('index.html', tasks=tasks)
 
+    return render_template('index.html', tasks=tasks)
 
 #criar
 @app.route('/add', methods=["GET", "POST"])
-def home():
+def add_task():
     conn = db_conect()
     cursor = conn.cursor()
     if request.method == 'POST':
@@ -55,21 +56,21 @@ def home():
         return "POST recebido!"
     return render_template('index.html')
 
-
-@app.route('/up/<int:id>', methods=['POST','GET'])
-def atualizes(id):
+#atualizar
+@app.route('/up/<int:id>', methods=['PATCH','GET'])
+def update_task(id):
     conn = db_conect()
-    
-    if request.method == 'POST':
+
+    if request.method == 'PATCH':
         #conectando
         cursor = conn.cursor(cursor_factory=RealDictCursor)
-        
+
         # pegando o json
         data_check = request.get_json() # dados do json
         print(data_check)
         check_status = data_check.get("checkedIn") # true or false
         print(check_status)
-        
+
         #na verdade so entrar e modificar
         if check_status == True:
             status = 'concluido'
@@ -81,7 +82,7 @@ def atualizes(id):
         conn.commit()
         cursor.close()
 
-        
+
         if cursor and not conn.close:
             conn.close()
         return jsonify({
@@ -92,26 +93,19 @@ def atualizes(id):
 
     return render_template('index.html')
 
+#remover
+@app.route('/del/<int:id>', methods=['DELETE', 'GET'])
+def remove_task(id):
+    if request.method == 'DELETE':
+        #acessar a id
 
-# #atualizar
-# @app.route('/update/<int:id>/complete', methods=['GET','POST'])
-# def up_task():
-#     conn = db_conect()
-#     if request.method == 'POST':
-#         box = request.form
-#         if 'box' in request.form:
-#             box_status = box['box'] #recebe on pode ser tambem request.form['box'] que recebe o valor da chave 'box'
-#             #se a caixinha esta marcada iremos atualizar o valor da check para CONCLUIDO!
-#             cursor = conn.cursor()
-#             cursor.execute("UPDATE tasks_table SET status = 'concluido' WHERE status = 'pendente'")
-#             conn.commit()
-#             cursor.close()
-#             if conn and not conn.close: #duvidas(sintaxe and not e porque nao tem () em close
-#                 conn.close()
-#         else:
-#             box_status = 'off' #recebe off
-            
-#     return render_template('index.html')
+
+
+        return jsonify({
+            "idDel": id
+        })
+    else:
+        return render_template('index.html')
 
 
 if __name__ == '__main__':

@@ -18,11 +18,12 @@
   
   <div id="tarefas">
     {% for task in tasks %}
-    <div id='tarefa'>
-        <input type="checkbox" class="check" data-task-id="{{task['id']}}" onchange='this.form.submit()' name='box'>
+    <div id='tarefa-{{task["id"]}}'>
+        <input type="checkbox" class="check" {% if task['status']== 'concluido' %} checked {% endif%} data-task-id="{{task['id']}}" name='box'><!--ENTENDER O PORQUER NOA PRECISAR USARO SUBMIT NO ONCHANGE-->
       <!--{#é a mesma coisa de  if tal == true pois o false ja seria desconsiderado#}-->
       <p class="name_task"> {{task['nome']}} </p>
       <p class="name_status"> {{task['status']}} </p>
+      <button class="task_del" type="submit"  data-task-id="{{task['id']}}"> x </button>
     </div>
     {% endfor %}
   </div>

@@ -1,10 +1,6 @@
-//Lógica
-// 1. pegar o atributo data
-// 2. pego o atributo iremos basicamente enviar ele para o flask e dessa forma vamos criar uma rota atraves da id
 
-// adicionar um evento para cada vez que for clicado obter a id do elemento
 let checkboxes = document.querySelectorAll(".check")
-
+let buttonsDel = document.querySelectorAll(".task_del")
 
 // function checkedId(){
 //   console.log(checked)
@@ -21,11 +17,10 @@ let checkboxes = document.querySelectorAll(".check")
 checkboxes.forEach(checkbox => {
   checkbox.addEventListener('click', function () { //entender a diferença com ou sem a =>
     let Idchecked = checkbox.getAttribute("data-task-id") //sucessooo
-    const checkStatus = this.checked
-    console.log(checkStatus)
+    const checkStatus = this.checked //true or false
     // eu preciso enviar um atributo para o flask T-T, o atributo checkbox para saber o visual, como acessar um atributo html e altera-lo
     fetch(`/up/${Idchecked}`, {
-      method:'POST',
+      method:'PATCH',
     
       headers: {
         "Content-Type": "application/json"
@@ -37,8 +32,40 @@ checkboxes.forEach(checkbox => {
     
     })
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then(data => {
+      checkbox.checked = data.result //recebe true ou false e altera a parte visual! / tem que pegar o elemento
+      //atualizar o status automaticamente
+      
+      statusTask = document.querySelector(`#tarefa-${Idchecked} .name_status`) //pegar o elemento p
+      if (checkbox.checked == true) {
+        statusTask.innerHTML = 'concluido'
+      }
+      else{
+        statusTask.innerHTML = 'pendente'
+      }
+
+    })
     .catch(error => console.log(error))
   })
    
 });
+
+buttonsDel.forEach(btnDel => {
+  btnDel.addEventListener('click', function () {
+    let Idchecked = btnDel.getAttribute("data-task-id")  //pegando a task
+    
+    fetch(`del/${Idchecked}`, {
+      method:'DELETE'
+    })
+
+    .then(response => response.JSON)
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+
+
+
+
+  })
+
+
+})
