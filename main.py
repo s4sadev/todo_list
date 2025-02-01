@@ -96,10 +96,18 @@ def update_task(id):
 #remover
 @app.route('/del/<int:id>', methods=['DELETE', 'GET'])
 def remove_task(id):
+    conn = db_conect()
     if request.method == 'DELETE':
-        #acessar a id
-
-
+        #conectando
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        #deleteando
+        cursor.execute(('DELETE FROM tasks_table WHERE id = %s') , (id, ))
+        #salvando
+        conn.commit()
+        #fechando
+        cursor.close()
+        if cursor and not conn.close:
+            conn.close()
 
         return jsonify({
             "idDel": id

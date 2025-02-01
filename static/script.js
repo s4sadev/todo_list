@@ -59,7 +59,12 @@ buttonsDel.forEach(btnDel => {
     })
 
     .then(response => response.JSON)
-    .then(data => console.log(data))
+    .then(data => {
+      // pegar o nosso elemento
+      task = document.getElementById(`tarefa-${Idchecked}`)
+      task.remove()
+      console.log(task)
+    })
     .catch(error => console.log(error))
 
 
