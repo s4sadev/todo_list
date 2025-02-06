@@ -44,16 +44,25 @@ def get_task():
 #criar
 @app.route('/add', methods=["GET", "POST"])
 def add_task():
-    conn = db_conect()
-    cursor = conn.cursor()
+
     if request.method == 'POST':
-        name_form = request.form['nome_form']
-        cursor.execute('INSERT INTO tasks_table (nome) VALUES (%s)', (name_form,))
+        # conn = db_conect()
+        # cursor = conn.cursor()
+        
+        data = request.get_json()
+        name_json = data.get('name')
+        
+        
+        cursor.execute('INSERT INTO tasks_table (nome) VALUES (%s)', (name_json,))
         conn.commit()
         cursor.close()
-    if cursor and not conn.close:
+    
+        if cursor and not conn.close:
         conn.close()
-        return "POST recebido!"
+        
+        return jsonify({
+            'name': name_json
+        })
     return render_template('index.html')
 
 #atualizar

@@ -10,12 +10,9 @@
 <body>
   <h1>Tarefas</h1>
   
-  <form action="/add" method="POST"> <!---nao esquecer: colocar o metodo no form e a action = rota--->
-    <label for="nome_form">Digite o nome da sua tarefa: </label>
-    <input type="text" id="nome_form"  name= "nome_form"required>
-    <button type="submit">criar tarefa</button>
-  </form>
-  
+    <input type="text" id="name_task" required>
+    <button type="submit" id="btn_add">criar tarefa</button>
+
   <div id="tarefas">
     {% for task in tasks %}
     <div id='tarefa-{{task["id"]}}'>
