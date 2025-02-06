@@ -46,8 +46,8 @@ def get_task():
 def add_task():
 
     if request.method == 'POST':
-        # conn = db_conect()
-        # cursor = conn.cursor()
+        conn = db_conect()
+        cursor = conn.cursor()
         
         data = request.get_json()
         name_json = data.get('name')
@@ -55,13 +55,18 @@ def add_task():
         
         cursor.execute('INSERT INTO tasks_table (nome) VALUES (%s)', (name_json,))
         conn.commit()
+        cursor.execute('SELECT id, status FROM tasks_table ORDER BY id DESC LIMIT 1')
+        infos = cursor.fetchall() #salvar é com o cursor e salvar alterações é com o conn 
         cursor.close()
-    
+        id_task = infos[0][0]
+        status_task = infos[0][1]
         if cursor and not conn.close:
-        conn.close()
+            conn.close()
         
         return jsonify({
-            'name': name_json
+            "id_new": id_task,
+            "name_new": name_json,
+            "status_new": status_task
         })
     return render_template('index.html')
 

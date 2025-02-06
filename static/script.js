@@ -82,8 +82,8 @@ BtnAdd.addEventListener('click', function(){
     ButtDel.hasAttribute('type')
     ButtDel.setAttribute('type', 'submit')
 
-    ButtDel.hasAttribute('data-task-id') //data
-    ButtDel.setAttribute('data-task-id', `${id}`) //data
+    ButtDel.hasAttribute('data-task-id')
+    ButtDel.setAttribute('data-task-id',`${id}`)
 
   })
   .catch(error => console.log(error))
@@ -93,41 +93,12 @@ BtnAdd.addEventListener('click', function(){
 })
 
 //atualizar antigo
-checkboxes.forEach(checkbox => {
-  checkbox.addEventListener('click', function () { //entender a diferença com ou sem a =>
-    let Idchecked = checkbox.getAttribute("data-task-id") //sucessooo
-    const checkStatus = this.checked //true or false
-    // eu preciso enviar um atributo para o flask T-T, o atributo checkbox para saber o visual, como acessar um atributo html e altera-lo
-    fetch(`/up/${Idchecked}`, {
-      method:'PATCH',
+// checkboxes.forEach(checkbox => {
+//   checkbox.addEventListener('click', function () { //entender a diferença com ou sem a =>
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+// });
 
-      body: JSON.stringify({
-        checkedIn: checkStatus
-      })
 
-    })
-    .then(response => response.json())
-    .then(data => {
-      checkbox.checked = data.result //recebe true ou false e altera a parte visual! / tem que pegar o elemento
-      //atualizar o status automaticamente
-
-      statusTask = document.querySelector(`#tarefa-${Idchecked} .name_status`) //pegar o elemento p
-      if (checkbox.checked == true) {
-        statusTask.innerHTML = 'concluido'
-      }
-      else{
-        statusTask.innerHTML = 'pendente'
-      }
-
-    })
-    .catch(error => console.log(error))
-  })
-
-});
 // remove
 buttonsDel.forEach(btnDel => {
   btnDel.addEventListener('click', function () {
@@ -146,26 +117,48 @@ buttonsDel.forEach(btnDel => {
     })
     .catch(error => console.log(error))
 
-
-
-
   })
-
 
 })
 
-// //atalizar neww
-// document.getElementById('tarefas').addEventListener('click', (event) => {
-//   if (event.target.classList.contains('check')){
-//     // fetch('/add', {
-//     //   method: 'POST',
-//     //   headers: {
-//     //     'Content-Type':'application/json'
-//     //   },
-//     //   body: JSON.stringify({
-//     //     name: nameIn
-//     //   })
 
-//     // })
-//   }
-// })
+//atalizar neww
+  document.getElementById('tarefas').addEventListener('click', (event) => {
+    if (event.target.classList.contains('check')) {
+      let checkbox = event.target
+      console.log(checkbox)
+
+      let Idchecked = checkbox.getAttribute("data-task-id") //sucessooo
+      const checkStatus = checkbox.checked //true or false
+      
+        // eu preciso enviar um atributo para o flask T-T, o atributo checkbox para saber o visual, como acessar um atributo html e altera-lo
+      fetch(`/up/${Idchecked}`, {
+        method: 'PATCH',
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          checkedIn: checkStatus
+        })
+
+      })
+      .then(response => response.json())
+      .then(data => {
+        checkbox.checked = data.result //recebe true ou false e altera a parte visual! / tem que pegar o elemento
+        //atualizar o status automaticamente
+
+        statusTask = document.querySelector(`#tarefa-${Idchecked} .name_status`) //pegar o elemento p
+        if (checkbox.checked == true) {
+          statusTask.innerHTML = 'concluido'
+        }
+        else{
+          statusTask.innerHTML = 'pendente'
+        }
+
+      })
+      .catch(error => console.log(error))
+    
+    }
+  })
