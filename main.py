@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 
 #listar
-@app.route('/listar')
+@app.route('/')
 def get_task():
     conn = db_conect()
     #cursor conecta
@@ -130,5 +130,7 @@ def remove_task(id):
         return render_template('index.html')
 
 
-if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=8080)
+# if __name__ == '__main__':
+#   app.run(host='0.0.0.0', port=8080)
+if __name__ == "__main__":
+    app.run(debug=True)

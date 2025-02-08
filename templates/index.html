@@ -4,26 +4,41 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;500;0,600;0,,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <title>Document</title>
 </head>
-<body>
-  <h1>Tarefas</h1>
+<body class="font-[Poppins] flex h-screen w-screen flex-col justify-center items-center" ">
+  <h1 class="justify-center itens-start">Tarefas</h1>
   
-    <input type="text" id="name_task" required>
-    <button type="submit" id="btn_add">criar tarefa</button>
+  <main id="to-do" class="flex flex-col">
+    <header id="header-tasks">
+      <input type="text" id="name_task" required>
+      <button type="submit" id="btn_add">criar tarefa</button>
+    </header>
 
-  <div id="tarefas">
+    <section id="tarefas" class="flex flex-col justify-center">
     {% for task in tasks %}
-    <div id='tarefa-{{task["id"]}}'>
-        <input type="checkbox" class="check" {% if task['status']== 'concluido' %} checked {% endif%} data-task-id="{{task['id']}}" name='box'><!--ENTENDER O PORQUER NOA PRECISAR USARO SUBMIT NO ONCHANGE-->
+    <div id='tarefa-{{task["id"]}}' class="grid grid-cols-[80px_150px_80px_80px_80px] gap-2 h-[40px] m-15 mb-4 ">
+      <input type="checkbox" class="check h-[40px]" {% if task['status']== 'concluido' %} checked {% endif%} data-task-id="{{task['id']}}" name='box'><!--ENTENDER O PORQUER NOA PRECISAR USARO SUBMIT NO ONCHANGE-->
       <!--{#é a mesma coisa de  if tal == true pois o false ja seria desconsiderado#}-->
-      <p class="name_task"> {{task['nome']}} </p>
-      <p class="name_status"> {{task['status']}} </p>
-      <button class="task_del" type="submit"  data-task-id="{{task['id']}}"> x </button>
+      <p class="name_task h-[40px] w-auto"> {{task['nome']}} </p>
+      <p class="name_status h-[40px]"> {{task['status']}} </p>
+      <button class="task_edit h-[40px] flex justify-end" type="submit"  data-task-id="{{task['id']}}"> 
+        <img src="/static/images/image.png" alt="edit-task" class="h-full object-contain"> 
+      </button>
+      <button class="task_del h-[40px] flex justify-end" type="submit"  data-task-id="{{task['id']}}"> 
+      <img src="/static/images/circulo-x.png" alt="remove-task" class="h-full object-contain">  
+      </button>
     </div>
     {% endfor %}
-  </div>
+    </section>
+
+  </main>
+  
+  <script src="https://cdn.tailwindcss.com"></script>  
+
   <script src="{{url_for('static', filename='script.js')}}"></script> <!-- fazer dessa forma se nao erro :( -->
 
 
