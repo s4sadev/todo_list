@@ -3,7 +3,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor #antes de tudo importar
 
 
-#app = Flask(__name__)
+app = Flask(__name__)
 
 #supabase é so com psycopg2, e é preciso usar essa conexao Transaction pooler pois ela é compativel com o TCP/IP
 # Para iniciar a conexao atribuimos o valor encontrado dentro da biblioteca mysql a uma variavel
@@ -18,7 +18,7 @@ def db_conect():
 
     )
 
-app = Flask(__name__)
+
 
 
 #listar
