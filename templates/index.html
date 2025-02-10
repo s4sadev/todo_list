@@ -5,31 +5,38 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;500;0,600;0,,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,800;1,100;1,200;1,300;1,400;1,700;1,800&display=swap" rel="stylesheet">
   <title>Document</title>
 </head>
-<body class="font-[Poppins] flex h-screen w-screen flex-col justify-center items-center" ">
-  <h1 class="justify-center itens-start">Tarefas</h1>
-  
-  <main id="to-do" class="flex flex-col">
-    <header id="header-tasks">
+<body class="font-[Poppins] flex h-screen w-screen flex-col justify-center items-center">
+  <header class="flex gap-3 flex-col">
+    <section class="flex">
+      <h1 class="justify-center itens-start text-2xl font-extrabold">to-do</h1>
+      <picture class="w[40px] flex items-center" >
+      <img src="/static/images/ico_app.png" alt="icone_todo" class="w-[30px] object-cover ">
+      </picture>
+    </section>
+  <section id="header-tasks" class="grid grid-cols-[318px_176px] mb-2">
       <input type="text" id="name_task" required>
-      <button type="submit" id="btn_add">criar tarefa</button>
-    </header>
+      <button type="submit" id="btn_add">add task</button>
+  </section>
+  </header>
 
-    <section id="tarefas" class="flex flex-col justify-center">
+  
+  <main id="to-do" class="h-[300px] flex flex-col justify-center items-center">
+    <section id="tarefas" class="">
     {% for task in tasks %}
-    <div id='tarefa-{{task["id"]}}' class="grid grid-cols-[80px_150px_80px_80px_80px] gap-2 h-[40px] m-15 mb-4 ">
-      <input type="checkbox" class="check h-[40px]" {% if task['status']== 'concluido' %} checked {% endif%} data-task-id="{{task['id']}}" name='box'><!--ENTENDER O PORQUER NOA PRECISAR USARO SUBMIT NO ONCHANGE-->
+    <div id='tarefa-{{task["id"]}}' class="grid grid-cols-[35px_150px_80px_80px_80px] gap-4 h-[40px] m-15 mb-4 flex items-center">
+      <input type="checkbox" class="check h-[35px] " {% if task['status']== 'concluido' %} checked {% endif%} data-task-id="{{task['id']}}" name='box'><!--ENTENDER O PORQUER NOA PRECISAR USARO SUBMIT NO ONCHANGE-->
       <!--{#é a mesma coisa de  if tal == true pois o false ja seria desconsiderado#}-->
-      <p class="name_task h-[40px] w-auto"> {{task['nome']}} </p>
-      <p class="name_status h-[40px]"> {{task['status']}} </p>
-      <button class="task_edit h-[40px] flex justify-end" type="submit"  data-task-id="{{task['id']}}"> 
-        <img src="/static/images/image.png" alt="edit-task" class="h-full object-contain"> 
+      <p class="name_task h-[40px] w-auto flex items-center"> {{task['nome']}} </p>
+      <p class="name_status h-[40px] flex items-center"> {{task['status']}} </p>
+      <button class="task_edit h-[40px] flex justify-end p-1" type="submit"  data-task-id="{{task['id']}}"> 
+        <img src="https://icons-for-free.com/iff/png/256/pen+icon-1320183611541728878.png" alt="edit-task" class="h-full object-contain"> 
       </button>
-      <button class="task_del h-[40px] flex justify-end" type="submit"  data-task-id="{{task['id']}}"> 
-      <img src="/static/images/circulo-x.png" alt="remove-task" class="h-full object-contain">  
+      <button class="task_del h-[40px] flex justify-start" type="submit"  data-task-id="{{task['id']}}"> 
+      <img src="/static/images/circulo-x.png" alt="remove-task" class="h-full object-contain p-1">  
       </button>
     </div>
     {% endfor %}
