@@ -1,54 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,800;1,100;1,200;1,300;1,400;1,700;1,800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,800;1,100;1,200;1,300;1,400;1,700;1,800&display=swap"
+    rel="stylesheet">
   <title>Document</title>
 </head>
+
 <body class="font-[Poppins] flex h-screen w-screen flex-col justify-center items-center">
+  
   <header class="flex gap-3 flex-col">
-    <section class="flex">
-      <h1 class="justify-center itens-start text-2xl font-extrabold">to-do</h1>
-      <picture class="w[40px] flex items-center" >
-      <img src="/static/images/ico_app.png" alt="icone_todo" class="w-[30px] object-cover ">
+
+    <section class="flex justify-center gap-2">
+      <h1 class="justify-center itens-start text-5xl text-[#009eeb] font-extrabold">to-do</h1>
+      <picture class="w[40px] flex items-center">
+        <img src="/static/images/ico_app.png" alt="icone_todo" class="w-[35px] object-cover ">
       </picture>
     </section>
-  <section id="header-tasks" class="grid grid-cols-[318px_176px] mb-2">
-      <input type="text" id="name_task" required>
-      <button type="submit" id="btn_add">add task</button>
-  </section>
+
+    <section id="header-tasks"
+      class="border-2 grid grid-cols-[389px_77px] p-[10px] gap-[10px] rounded-2xl bg-[#88cdf6]">
+      <input type="text" id="name_task" required="" class="border-2 p-1 h-[35px] rounded-xl">
+      <button type="submit" id="btn_add" class="flex justify-end h-[35px] flex justify-center items-center rounded-xl">
+        <img src="/static/images/add.png" alt="add-task-ico"
+          class="w-[35px] object-cover border-2 p-1 rounded-xl bg-white">
+      </button>
+    </section>
+  
   </header>
 
-  
-  <main id="to-do" class="h-[300px] flex flex-col justify-center items-center">
-    <section id="tarefas" class="">
-    {% for task in tasks %}
-    <div id='tarefa-{{task["id"]}}' class="grid grid-cols-[35px_150px_80px_80px_80px] gap-4 h-[40px] m-15 mb-4 flex items-center">
-      <input type="checkbox" class="check h-[35px] " {% if task['status']== 'concluido' %} checked {% endif%} data-task-id="{{task['id']}}" name='box'><!--ENTENDER O PORQUER NOA PRECISAR USARO SUBMIT NO ONCHANGE-->
-      <!--{#é a mesma coisa de  if tal == true pois o false ja seria desconsiderado#}-->
-      <p class="name_task h-[40px] w-auto flex items-center"> {{task['nome']}} </p>
-      <p class="name_status h-[40px] flex items-center"> {{task['status']}} </p>
-      <button class="task_edit h-[40px] flex justify-end p-1" type="submit"  data-task-id="{{task['id']}}"> 
-        <img src="https://icons-for-free.com/iff/png/256/pen+icon-1320183611541728878.png" alt="edit-task" class="h-full object-contain"> 
-      </button>
-      <button class="task_del h-[40px] flex justify-start" type="submit"  data-task-id="{{task['id']}}"> 
-      <img src="/static/images/circulo-x.png" alt="remove-task" class="h-full object-contain p-1">  
-      </button>
-    </div>
-    {% endfor %}
+
+  <main id="to-do" class="h-[250px] flex flex-col mt-5 justify-start items-center">
+    
+    <section id="tarefas" class="border-2 rounded-2xl p-2 bg-[#88cdf6]">
+      
+      {% for task in tasks %}
+      <div id="tarefa-{{task['id']}}" {% if task['status']=='concluido' %} checked {% endif%}
+        class="border-2 p-2 grid grid-cols-[35px_150px_80px_80px_50px] gap-4 h-[60px] m-15 mb-4 flex items-center rounded-2xl bg-white">
+        <input type="checkbox" class="check h-[30px]" checked="" data-task-id="{{task['id']}}"
+          name="box"><!--ENTENDER O PORQUER NOA PRECISAR USARO SUBMIT NO ONCHANGE-->
+        <!---->
+        <p class="name_task h-[40px] w-auto flex items-center"> {{task['nome']}} </p>
+        <p class="name_status h-[40px] flex items-center"> {{task['status']}} </p>
+        <button class="task_edit h-[40px] flex justify-end" type="submit" data-task-id="{{task['id']}}">
+          <img src="https://icons-for-free.com/iff/png/256/pen+icon-1320183611541728878.png" alt="edit-task"
+            class="h-full object-contain">
+        </button>
+        <button class="task_del h-[40px] flex justify-start" type="submit" data-task-id="{{task['id']}}">
+          <img src="/static/images/circulo-x.png" alt="remove-task" class="h-full object-contain p-1">
+        </button>
+      </div>
+      {% endfor %}
+    
     </section>
 
   </main>
-  
-  <script src="https://cdn.tailwindcss.com"></script>  
+
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <script src="{{url_for('static', filename='script.js')}}"></script> <!-- fazer dessa forma se nao erro :( -->
 
 
 
 </body>
+
 </html>

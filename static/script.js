@@ -35,8 +35,12 @@ BtnAdd.addEventListener('click', function(){
     const status = data.status_new
     //criar eleemmttt
 
+    // 1x input, 2x p, 2x button
+    // 2x button -> 2x img
+
     //puxar o elemento principalll
     const Tasks = document.getElementById('tarefas')
+
 
     // criar o elemento divonico
     const Task = document.createElement('div')
@@ -59,6 +63,13 @@ BtnAdd.addEventListener('click', function(){
 
     CheckInp.hasAttribute('name')
     CheckInp.setAttribute('name', 'box')
+
+    //img dentro do button
+    imgEdit = document.createElement('img')
+    CheckInp.appendChild(imgEdit)
+
+    imgEdit.hasAttribute('src')
+    imgEdit.setAttribute('src', )
 
     
     // p - name_task
